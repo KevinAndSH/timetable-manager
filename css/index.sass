@@ -1,0 +1,86 @@
+@import "./sass/normalize"
+$body-width: 22em
+$card-margin: 1em
+
+@mixin btn-colors
+  background-color: hsl(200, 80%, 90%)
+  transition: all 0.1s
+  &:hover
+    color: hsl(200, 80%, 90%)
+    border: 1px solid hsl(270, 60%, 20%)
+    background-color: hsl(200, 50%, 50%)
+
+*
+  box-sizing: border-box
+
+body
+  font-family: sans-serif
+  font-size: 16px
+  background-color: hsl(210, 30%, 70%)
+  width: $body-width
+
+.title
+  text-align: center
+  margin: 1em auto 0.5em
+
+.body
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  
+  label
+    text-align: left
+
+.card
+  background: hsl(200, 50%, 60%)
+  padding: 1em
+  margin: $card-margin
+  width: $body-width - 2 * $card-margin
+  border: 3px solid hsl(270, 60%, 20%)
+  border-radius: 1.3em
+
+  &--title
+    color: hsl(240, 60%, 40%)
+    font-size: 1.3em
+    font-weight: bold
+    text-decoration: none
+    &:hover
+      color: hsl(240, 70%, 60%)
+
+  &--subtitle
+    margin: 0.5em 0
+
+  &--key-container
+    display: flex
+    justify-content: space-between
+    align-items: center
+    width: 90%
+  
+  &--key
+    display: inline-block
+    margin: 0.8em 0
+    &__italic
+      font-style: italic
+
+  &--copy-btn
+    border: 1px solid black
+    border-radius: 1em
+    padding: 0.3em 0.8em
+    transition: all 0.1s
+    @include btn-colors
+
+  &--schedule
+    margin: 0.5em 0
+
+.add-form
+  display: flex
+  flex-direction: column
+
+.switch-btn
+  font-size: 1.1em
+  margin-bottom: 1em
+  padding: 0.5em 1em
+  border: 1px solid black
+  border-radius: 1em
+  @include btn-colors

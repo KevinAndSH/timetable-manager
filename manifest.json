@@ -1,0 +1,11 @@
+{
+  "name": "Schedule Manager",
+  "description": "Small extension for managing my classes links and practice Sass and JS for the frontend a bit",
+  "version": "0.1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "icon.png"
+  },
+  "permissions": ["storage", "tabs"]
+}
