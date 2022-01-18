@@ -2,7 +2,7 @@ const root = document.getElementById("root")
 const title = document.getElementById("title")
 const body = document.getElementById("body")
 
-function makeHTMLCard (title, link, key = null) {
+function makeHTMLCard (title, link, startTime, endTime, key = null) {
   return `
     <div class="card">
       <a class="card--title"" href=${link} target="_blank">
@@ -12,20 +12,20 @@ function makeHTMLCard (title, link, key = null) {
       ${ key ? `
       <div class="card--key-container">
         <p class="card--key">
-          <b>Clave:</b> <span class="card--key__italic">${key}</span>
+          <b>Passcode:</b> <span class="card--key__italic">${key}</span>
         </p>
         <button class="card--copy-btn"">Copy</button>
       </div>` : ""
       }
 
       <h3 class="card--subtitle">Schedule:</h3>
-      <p class="card--schedule">18:00 - 20:30</p>
+      <p class="card--schedule">${startTime} - ${endTime}</p>
     </div>
   `
 }
 
 function renderAddForm () {
-  title.innerText = "Add new class"
+  title.innerText = "Add new item"
   body.innerHTML = `
     <div class="add-form">
       <label for="title">Title</label>
@@ -34,7 +34,7 @@ function renderAddForm () {
       <label for="link">Link</label>
       <input type="text" name="link">
 
-      <label for="key">Password (if exists)</label>
+      <label for="key">Passcode (if exists)</label>
       <input type="text" name="key">
 
       <label for="start-time">Starts at:</label>
@@ -46,7 +46,7 @@ function renderAddForm () {
     <button class="switch-btn">Save</button>
   `
 
-  document.querySelector(".switch-btn").addEventListener("click", saveNewClass)
+  document.querySelector(".switch-btn").addEventListener("click", saveNewItem)
 }
 
 async function copyText(keyEl) {
@@ -60,13 +60,13 @@ function renderTimetable() {
 
     if (res.schedules?.length > 0) {
       res.schedules.forEach(sch => {
-        bodyString += makeHTMLCard(sch.title, sch.link, sch.key)
+        bodyString += makeHTMLCard(sch.title, sch.link, sch.startTime, sch.endTime, sch.key)
       })
     } else {
       bodyString += `<h3 class="card--key">Nothing here yet...</h3>`
     }
 
-    bodyString += `<button class="switch-btn">Add new class</button>`
+    bodyString += `<button class="switch-btn">Add new item</button>`
     
     title.innerText = "Timetable"
     body.innerHTML = bodyString
@@ -81,10 +81,10 @@ function renderTimetable() {
   })
 }
 
-function saveNewClass() {
+function saveNewItem() {
   const inputEls = document.querySelectorAll(".add-form input")
 
-  const newClass = {
+  const newItem = {
     title: inputEls[0].value,
     link: inputEls[1].value,
     key: inputEls[2].value,
@@ -92,11 +92,11 @@ function saveNewClass() {
     endTime: inputEls[4].value,
   }
 
-  if (!newClass.title || !newClass.startTime || !newClass.endTime) {
-    title.innerText = "Add new class, but do it right this time"
+  if (!newItem.title || !newItem.startTime || !newItem.endTime) {
+    title.innerText = "Add new item, but do it right this time"
   } else {
     chrome.storage.local.get(["schedules"], res => {
-      res.schedules.push(newClass)
+      res.schedules.push(newItem)
       chrome.storage.local.set({schedules: res.schedules})
       renderTimetable()
     })
